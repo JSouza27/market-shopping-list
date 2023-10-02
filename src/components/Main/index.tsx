@@ -5,7 +5,7 @@ export default function Main({
   description = 'TypeScript, ReactJS, NextJS e Styled Components'
 }) {
   return (
-    <main className="items-center bg-gray-900 flex flex-col justify-center h-full p-12 text-white w-full">
+    <main className="items-center bg-gray-900 flex flex-col justify-center h-full p-12 text-dark w-full">
       <h1 className="text-center">Boilerplate React Avançado</h1>
       <Image
         className="mb-8 w-[25rem]"
