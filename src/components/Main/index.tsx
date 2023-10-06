@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Tag from '../Tag';
 
 export default function Main({
   title = 'React Avançado',
@@ -7,6 +8,7 @@ export default function Main({
   return (
     <main className="items-center bg-gray-900 flex flex-col justify-center h-full p-12 text-dark w-full">
       <h1 className="text-center">Boilerplate React Avançado</h1>
+      <Tag text={'padaria'} color={'yellow'} />
       <Image
         className="mb-8 w-[25rem]"
         src="/img/logo.svg"
