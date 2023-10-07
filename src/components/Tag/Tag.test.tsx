@@ -5,15 +5,18 @@ import Tag from '.';
 
 describe('<Tag />', () => {
   it('should render the Tag', () => {
-    render(<Tag color="blue" text="bebida" />);
+    render(<Tag color="blue">bebida</Tag>);
 
     const tag = screen.getByText('bebida');
 
     expect(tag).toBeInTheDocument();
   });
+
   it('should render the Icon', () => {
     const { container } = render(
-      <Tag color="blue" text="bebida" icon={<Sandwich size={16} />} />
+      <Tag color="blue" icon={<Sandwich size={16} />}>
+        bebida
+      </Tag>
     );
 
     const icon = container.querySelector('.lucide-sandwich');

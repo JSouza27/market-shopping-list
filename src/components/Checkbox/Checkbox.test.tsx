@@ -6,7 +6,7 @@ import Checkbox from '.';
 describe('<Checkbox />', () => {
   it('should render the heading', () => {
     const onChange = jest.fn();
-    render(<Checkbox checked={false} handleChange={onChange} />);
+    render(<Checkbox checked={false} onChange={onChange} />);
 
     const checkbox = screen.getByRole('checkbox');
 
@@ -16,7 +16,7 @@ describe('<Checkbox />', () => {
 
   it('should change the checked property to true when clicking', async () => {
     const onChange = jest.fn();
-    render(<Checkbox checked={false} handleChange={onChange} />);
+    render(<Checkbox onChange={onChange} />);
 
     await user.click(screen.getByRole('checkbox'));
     await waitFor(() => {
