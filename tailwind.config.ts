@@ -76,6 +76,15 @@ const config: Config = {
       turquoise_dark: '#009688',
       turquoise_light: '#4dd9cb',
       turquoise_lighter: '#ccf4f0'
+    },
+    extend: {
+      boxShadow: {
+        '3xl': `
+        inset 0 0 0 1px rgba(19,10,26,.09),
+        0 0 5px 0 rgba(19,10,26,.04), 0 4px 6px -8px rgba(19,10,26,.12),
+        0 6px 30px -8px rgba(19,10,26,.2)
+        `
+      }
     }
   },
   plugins: []
