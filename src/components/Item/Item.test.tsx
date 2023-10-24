@@ -1,66 +1,42 @@
-import { render, screen } from '@testing-library/react';
-import { Apple } from 'lucide-react';
+import { render, screen } from '../../utils/test-utils';
 
-import Item from '.';
+import { Item } from './';
 
-describe('<Item />', () => {
-  it('should render the item', () => {
+describe('<Group />', () => {
+  it('should render the Group', () => {
     render(
-      <Item
-        label="Banana"
-        quantity={6}
-        category={{
-          color: 'orange',
-          icon: <Apple size={16} />,
-          name: 'fruta'
-        }}
-      />
+      <Item.Group checked={false}>
+        <span>Hello World</span>
+      </Item.Group>
     );
 
-    const item = screen.getByText(/Banana/i);
-    const units = screen.getByText(/6 unidades/i);
-    const tag = screen.getByText(/fruta/i);
-    const checkbox = screen.getByRole('checkbox');
-    const button = screen.getByRole('button');
-
-    expect(item).toBeInTheDocument();
-    expect(units).toBeInTheDocument();
-    expect(tag).toBeInTheDocument();
-    expect(checkbox).toBeInTheDocument();
-    expect(button).toBeInTheDocument();
+    const children = screen.getByText(/hello world/i);
+    expect(children).toBeInTheDocument();
   });
+});
 
-  it('should change the text to "units" if the quantity is more than 1', () => {
+describe('<Label />', () => {
+  it('should render the Label', () => {
     render(
-      <Item
-        label="Maçã"
-        quantity={2}
-        category={{
-          color: 'orange',
-          icon: <Apple size={16} />,
-          name: 'fruta'
-        }}
-      />
+      <Item.Label checked={false}>
+        <span>Hello Label</span>
+      </Item.Label>
     );
 
-    const units = screen.getByText(/2 unidades/i);
-    expect(units).toBeInTheDocument();
+    const children = screen.getByText(/hello label/i);
+    expect(children).toBeInTheDocument();
   });
+});
 
-  it('should change the text to "unit" if the quantity is less than or equal to 1', () => {
+describe('<Description />', () => {
+  it('should render the Description', () => {
     render(
-      <Item
-        label="Maçã"
-        quantity={1}
-        category={{
-          color: 'orange',
-          icon: <Apple size={16} />,
-          name: 'fruta'
-        }}
-      />
+      <Item.Description>
+        <span>Hello Description</span>
+      </Item.Description>
     );
 
-    const units = screen.getByText(/1 unidade/i);
-    expect(units).toBeInTheDocument();
+    const children = screen.getByText(/hello description/i);
+    expect(children).toBeInTheDocument();
   });
 });

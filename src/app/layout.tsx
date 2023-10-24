@@ -13,7 +13,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body>{children}</body>
+      <body className="bg-white_bis flex flex-col items-center p-6">
+        {children}
+      </body>
     </html>
   );
 }
