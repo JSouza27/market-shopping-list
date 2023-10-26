@@ -26,7 +26,7 @@ export default function ListBox({
       <div className="relative">
         <Listbox.Button className="w-full">
           {({ open }) => (
-            <button
+            <div
               className={`flex gap-2 items-center justify-between w-full text-sm border rounded-md p-3 relative
                 ${open ? buttonModifiers.open : buttonModifiers.close}
                 ${customClass}
@@ -41,7 +41,7 @@ export default function ListBox({
                   size={16}
                 />
               </div>
-            </button>
+            </div>
           )}
         </Listbox.Button>
         <Listbox.Options className="bg-white_bis shadow-3xl absolute rounded-md mt-1 p-2 z-50 w-full">
