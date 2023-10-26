@@ -1,9 +1,10 @@
 import React from 'react';
+import { ColorType } from '../../common/types/category';
 
 export type TagType = {
   children: string | React.ReactNode;
   icon?: React.ReactNode;
-  color: 'pink' | 'orange' | 'yellow' | 'green' | 'blue';
+  color: ColorType;
 };
 
 export default function Tag({ children, icon, color }: TagType) {
@@ -17,10 +18,12 @@ export default function Tag({ children, icon, color }: TagType) {
 
   return (
     <div
-      className={`rounded-[62.4375rem] flex justify-center items-center gap-2 px-4 py-2 w-fit ${colorVariants[color]}`}
+      className={`rounded-[62.4375rem] flex justify-center items-center gap-2 px-2 py-2 w-fit ${colorVariants[color]} md:px-4`}
     >
       {icon && icon}
-      <span className={`font-semibold leading-3 text-xs`}>{children}</span>
+      <span className={`font-semibold leading-3 text-xs hidden md:block`}>
+        {children}
+      </span>
     </div>
   );
 }

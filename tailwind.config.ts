@@ -3,6 +3,7 @@ import type { Config } from 'tailwindcss';
 const config: Config = {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/templates/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}'
   ],
@@ -84,9 +85,12 @@ const config: Config = {
         0 0 5px 0 rgba(19,10,26,.04), 0 4px 6px -8px rgba(19,10,26,.12),
         0 6px 30px -8px rgba(19,10,26,.2)
         `
+      },
+      flexBasis: {
+        '34': '8.5rem'
       }
     }
   },
-  plugins: []
+  plugins: [require('@headlessui/tailwindcss')]
 };
 export default config;

@@ -10,8 +10,15 @@ export default {
 
 export const Default: StoryObj<TagType> = {
   args: {
-    text: 'padaria',
+    color: 'yellow'
+  },
+  render: (args) => <Tag {...args}>padaria</Tag>
+};
+
+export const WithIcon: StoryObj<TagType> = {
+  args: {
     icon: <Sandwich size={16} />,
     color: 'yellow'
-  }
+  },
+  render: (args) => <Tag {...args}>padaria</Tag>
 };

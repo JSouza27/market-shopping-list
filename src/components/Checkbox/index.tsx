@@ -6,7 +6,7 @@ export default function Checkbox({ ...props }: CheckboxProps) {
   return (
     <div className="relative flex cursor-pointer items-center rounded-full p-1">
       <input
-        className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded border border-primary_light hover:bg-primary_dark transition-all before:absolute before:top-2/4 before:left-2/4 before:block checked:border-success_dark checked:bg-success_dark checked:before:bg-success_dark checked:hover:bg-success hover:before:opacity-10"
+        className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded focus:outline-purple_light border border-primary_light hover:bg-primary_dark transition-all before:absolute before:top-2/4 before:left-2/4 before:block checked:border-success_dark checked:bg-success_dark checked:before:bg-success_dark checked:hover:bg-success hover:before:opacity-10"
         type="checkbox"
         {...props}
       />
