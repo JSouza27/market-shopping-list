@@ -8,7 +8,9 @@ module.exports = {
     '!src/validations/*',
     '!src/app/*.tsx',
     '!src/app/**/*.ts',
-    '!src/common/**/*.ts'
+    '!src/common/**/*.ts',
+    '!src/utils/**/*.ts(x)?',
+    '!src/templates/**/*.ts(x)?'
   ],
   setupFilesAfterEnv: ['<rootDir>/.jest/setup.ts'],
   modulePaths: ['<rootDir>/src/'],

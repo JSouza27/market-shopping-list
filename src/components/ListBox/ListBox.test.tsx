@@ -38,7 +38,6 @@ describe('<ListBox />', () => {
     );
 
     const button = screen.getByText(/un/i);
-    screen.logTestingPlaygroundURL();
     expect(button).toBeInTheDocument();
   });
 });

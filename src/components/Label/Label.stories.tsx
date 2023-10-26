@@ -1,6 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
 import Label, { LabelProps } from '.';
-import Input from '../Input';
 
 export default {
   title: 'Label',
@@ -9,12 +8,11 @@ export default {
 
 export const Default: StoryObj<LabelProps> = {
   args: {
-    htmlFor: 'Item',
-    label: 'Item'
+    htmlFor: 'Item'
   },
   render: (args) => (
     <Label {...args}>
-      <Input id={args.htmlFor} />
+      <span>Item</span>
     </Label>
   )
 };

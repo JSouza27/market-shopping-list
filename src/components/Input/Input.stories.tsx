@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 import Label from '../Label';
 import Input, { InputProps } from '.';
+import { FormProvider, useForm } from 'react-hook-form';
 
 export default {
   title: 'Input',
@@ -9,10 +10,22 @@ export default {
 
 export const Default: StoryObj<InputProps> = {
   args: {
-    id: 'story'
+    id: 'story',
+    name: 'item'
   },
+  decorators: [
+    (Story) => {
+      const methods = useForm();
+      return (
+        <FormProvider {...methods}>
+          <Story />
+        </FormProvider>
+      );
+    }
+  ],
   render: (args) => (
-    <Label label="Item" htmlFor={args.id}>
+    <Label htmlFor={args.id}>
+      <span>Item</span>
       <Input {...args} />
     </Label>
   )
