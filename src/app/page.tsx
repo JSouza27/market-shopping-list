@@ -1,21 +1,36 @@
 import Header from '../components/Header';
-import { getCategories } from './service/categories';
 import { CategoryType } from '../common/types/category';
-import { getItens } from './service/itens';
-import { ItemChecklistType, ItemResponse } from '../common/types/item';
 import Home, { HomeProps } from '../templates/Home';
 import selectIcon from '../utils/SelectIcon';
+import { IGetItemResponse, ItemChecklistType } from '../common/types/item';
 
 export default async function Index() {
-  const categories = await getCategories();
-  const itens: ItemResponse[] = await getItens();
+  const { data: categoryData } = await fetch(
+    `${process.env.BASE_URL}/category`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }
+  ).then((resp) => resp.json());
 
-  const categoriesMapped: CategoryType[] = categories.map((category) => {
-    return {
-      ...category,
-      icon: selectIcon(category.label)
-    };
-  });
+  const { data: listData } = await fetch(`${process.env.BASE_URL}/item`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    cache: 'no-store'
+  }).then((resp) => resp.json());
+
+  const categoriesMapped: CategoryType[] = categoryData.map(
+    (category: CategoryType) => {
+      return {
+        ...category,
+        icon: selectIcon(category.label)
+      };
+    }
+  );
 
   const unitOfMeasurement: CategoryType[] = [
     { id: '1', name: 'UN', label: 'unidade' },
@@ -23,10 +38,12 @@ export default async function Index() {
     { id: '3', name: 'KG', label: 'Kg' }
   ];
 
-  const itensMapped: ItemChecklistType[] = itens.map((item) => ({
-    ...item,
-    category: categoriesMapped.find((el) => el.id === item.category)
-  }));
+  const itensMapped: ItemChecklistType[] = listData.map(
+    (item: IGetItemResponse) => ({
+      ...item,
+      category: categoriesMapped.find((el) => el.id === item.category)
+    })
+  );
 
   const props: HomeProps = {
     units: unitOfMeasurement,

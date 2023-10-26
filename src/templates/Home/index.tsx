@@ -197,7 +197,7 @@ export default function Home({ units, categories, listItens }: HomeProps) {
         </section>
       </FormProvider>
 
-      <section className="flex flex-col gap-3 -">
+      <section className="flex flex-col gap-3 overflow-y-auto max-h-[32.5rem] pr-3">
         {itens.map((item) => (
           <div key={`item-${item.id}`}>
             <Item.Group checked={item.isChecked}>
@@ -225,7 +225,7 @@ export default function Home({ units, categories, listItens }: HomeProps) {
                 )}
 
                 <button
-                  className="z-50 flex relative items-center self-stretch gap-2 p-3 hover:bg-grey_lighter/25 hover:rounded-md"
+                  className="flex relative items-center self-stretch gap-2 p-3 hover:bg-grey_lighter/25 hover:rounded-md"
                   type="button"
                   onClick={() => {
                     removeItem(item.id);
