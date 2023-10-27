@@ -10,7 +10,7 @@ export default async function Index() {
   const categoryData = await getCategories();
   const listData = await getItens();
 
-  const categoriesMapped: CategoryType[] = categoryData.map(
+  const categoriesMapped: CategoryType[] = categoryData.data.map(
     (category: CategoryType) => {
       return {
         ...category,
@@ -25,7 +25,7 @@ export default async function Index() {
     { id: '3', name: 'KG', label: 'Kg' }
   ];
 
-  const itensMapped: ItemChecklistType[] = listData.map((item) => ({
+  const itensMapped: ItemChecklistType[] = listData.data.map((item: any) => ({
     ...item,
     category: categoriesMapped.find((el) => el.id === item.category)
   }));

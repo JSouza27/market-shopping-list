@@ -1,25 +1,33 @@
 import 'server-only';
 
-import { Client } from '@notionhq/client';
-import { IGetItemResponse } from '../../common/types/item';
-
-const notion = new Client({
-  auth: process.env.NOTION_TOKEN
-});
-
 export async function getItens() {
-  const response = await notion.databases.query({
-    database_id: process.env.LIST_DATA_BASE_ID || ''
-  });
+  try {
+    const response = await fetch(
+      `https://api.notion.com/v1/databases/${process.env.LIST_DATA_BASE_ID}/query`,
+      {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'Notion-Version': '2022-06-28',
+          'content-type': 'application/json',
+          Authorization: `Bearer ${process.env.NOTION_TOKEN}`
+        },
+        cache: 'no-store'
+      }
+    ).then((resp) => resp.json());
 
-  const itens = response as unknown as IGetItemResponse;
+    const list = response.results.map((item: any) => ({
+      id: item.id,
+      unit: item.properties.unit.rich_text[0].plain_text,
+      category: item.properties.category.relation[0].id,
+      quantity: item.properties.quantity.number || 0,
+      name: item.properties.name.title[0].plain_text,
+      isChecked: item.properties.isChecked.checkbox
+    }));
 
-  return itens.results.map((item) => ({
-    id: item.id,
-    unit: item.properties.unit.rich_text[0].plain_text,
-    category: item.properties.category.relation[0].id,
-    quantity: item.properties.quantity.number || 0,
-    name: item.properties.name.title[0].plain_text,
-    isChecked: item.properties.isChecked.checkbox
-  }));
+    return { data: list, success: true };
+  } catch (error) {
+    console.error(error);
+    return { data: [], message: error, success: false };
+  }
 }
