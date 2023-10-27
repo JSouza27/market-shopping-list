@@ -3,11 +3,13 @@ import { CategoryType } from '../common/types/category';
 import Home, { HomeProps } from '../templates/Home';
 import { getCategories } from './_services/get-categories';
 import selectIcon from '../utils/SelectIcon';
-// import { getItens } from './_services/get-itens';
+import { getItens } from './_services/get-itens';
+import { ItemChecklistType } from '../common/types/item';
 
 export default async function Index() {
   const categoryData = await getCategories();
-  // const listData = await getItens();
+  const listData = await getItens();
+
   const categoriesMapped: CategoryType[] = categoryData.map(
     (category: CategoryType) => {
       return {
@@ -23,17 +25,15 @@ export default async function Index() {
     { id: '3', name: 'KG', label: 'Kg' }
   ];
 
-  // const itensMapped: ItemChecklistType[] = listData.map(
-  //   (item: IGetItemResponse) => ({
-  //     ...item,
-  //     category: categoriesMapped.find((el) => el.id === item.category)
-  //   })
-  // );
+  const itensMapped: ItemChecklistType[] = listData.map((item) => ({
+    ...item,
+    category: categoriesMapped.find((el) => el.id === item.category)
+  }));
 
   const props: HomeProps = {
     units: unitOfMeasurement,
     categories: categoriesMapped,
-    listItens: []
+    listItens: itensMapped
   };
 
   return (
