@@ -1,27 +1,14 @@
 import Header from '../components/Header';
 import { CategoryType } from '../common/types/category';
 import Home, { HomeProps } from '../templates/Home';
+import { getCategories } from './_services/get-categories';
 import selectIcon from '../utils/SelectIcon';
+import { getItens } from './_services/get-itens';
 import { IGetItemResponse, ItemChecklistType } from '../common/types/item';
 
 export default async function Index() {
-  const { data: categoryData } = await fetch(
-    `${process.env.BASE_URL}/category`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }
-  ).then((resp) => resp.json());
-
-  const { data: listData } = await fetch(`${process.env.BASE_URL}/item`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    cache: 'no-store'
-  }).then((resp) => resp.json());
+  const categoryData = await getCategories();
+  const listData = await getItens();
 
   const categoriesMapped: CategoryType[] = categoryData.map(
     (category: CategoryType) => {
