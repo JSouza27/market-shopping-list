@@ -1,21 +1,23 @@
 import Header from '../components/Header';
-import { getCategories } from './service/categories';
 import { CategoryType } from '../common/types/category';
-import { getItens } from './service/itens';
-import { ItemChecklistType, ItemResponse } from '../common/types/item';
 import Home, { HomeProps } from '../templates/Home';
+import { getCategories } from './_services/get-categories';
 import selectIcon from '../utils/SelectIcon';
+import { getItens } from './_services/get-itens';
+import { ItemChecklistType } from '../common/types/item';
 
 export default async function Index() {
-  const categories = await getCategories();
-  const itens: ItemResponse[] = await getItens();
+  const categoryData = await getCategories();
+  const listData = await getItens();
 
-  const categoriesMapped: CategoryType[] = categories.map((category) => {
-    return {
-      ...category,
-      icon: selectIcon(category.label)
-    };
-  });
+  const categoriesMapped: CategoryType[] = categoryData.data.map(
+    (category: CategoryType) => {
+      return {
+        ...category,
+        icon: selectIcon(category.label)
+      };
+    }
+  );
 
   const unitOfMeasurement: CategoryType[] = [
     { id: '1', name: 'UN', label: 'unidade' },
@@ -23,7 +25,7 @@ export default async function Index() {
     { id: '3', name: 'KG', label: 'Kg' }
   ];
 
-  const itensMapped: ItemChecklistType[] = itens.map((item) => ({
+  const itensMapped: ItemChecklistType[] = listData.data.map((item: any) => ({
     ...item,
     category: categoriesMapped.find((el) => el.id === item.category)
   }));

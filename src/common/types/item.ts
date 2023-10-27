@@ -27,6 +27,7 @@ export interface IGetItemResponse {
   page_or_database: PageOrDatabase;
   developer_survey: string;
   request_id: string;
+  category: string;
 }
 
 export interface Result {
