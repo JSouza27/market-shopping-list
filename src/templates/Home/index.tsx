@@ -197,7 +197,7 @@ export default function Home({ units, categories, listItens }: HomeProps) {
         </section>
       </FormProvider>
 
-      <section className="flex flex-col gap-3 overflow-y-auto max-h-[32.5rem] pr-3">
+      <section className="flex flex-col gap-3 overflow-y-auto max-h-[32.5rem] pr-3 pb-4">
         {itens.map((item) => (
           <div key={`item-${item.id}`}>
             <Item.Group checked={item.isChecked}>
