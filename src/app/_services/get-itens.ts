@@ -1,6 +1,13 @@
 import 'server-only';
+import { IGetItemResponse } from '../../common/types/item';
 
-export async function getItens() {
+type GetItensType = {
+  data: IGetItemResponse[] | [];
+  success: boolean;
+  message?: unknown;
+};
+
+export async function getItens(): Promise<GetItensType> {
   try {
     const response = await fetch(
       `https://api.notion.com/v1/databases/${process.env.LIST_DATA_BASE_ID}/query`,
@@ -22,7 +29,8 @@ export async function getItens() {
       category: item.properties.category.relation[0].id,
       quantity: item.properties.quantity.number || 0,
       name: item.properties.name.title[0].plain_text,
-      isChecked: item.properties.isChecked.checkbox
+      isChecked: item.properties.isChecked.checkbox,
+      price: item.properties.price.number
     }));
 
     return { data: list, success: true };

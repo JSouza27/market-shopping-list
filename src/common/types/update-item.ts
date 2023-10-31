@@ -1,38 +1,4 @@
-import { CategoryType } from './category';
-
-export type ItemResponse = {
-  id: string;
-  unit: string;
-  category?: string;
-  quantity: number;
-  price: number;
-  name: string;
-  isChecked: boolean;
-};
-
-export type ItemChecklistType = {
-  id: string;
-  name: string;
-  unit: string;
-  quantity: number;
-  price: number | null;
-  category?: CategoryType;
-  isChecked: boolean;
-};
-
-export interface IGetItemResponse {
-  object: string;
-  results: Result[];
-  next_cursor: any;
-  has_more: boolean;
-  type: string;
-  page_or_database: PageOrDatabase;
-  developer_survey: string;
-  request_id: string;
-  category: string;
-}
-
-export interface Result {
+export interface IItem {
   object: string;
   id: string;
   created_time: string;
@@ -46,6 +12,7 @@ export interface Result {
   properties: Properties;
   url: string;
   public_url: any;
+  request_id: string;
 }
 
 export interface CreatedBy {
@@ -64,12 +31,18 @@ export interface Parent {
 }
 
 export interface Properties {
+  isChecked: IsChecked;
   unit: Unit;
+  price: Price;
   category: Category;
   quantity: Quantity;
   name: Name;
-  isChecked: { id: string; type: string; checkbox: boolean };
-  price: Price;
+}
+
+export interface IsChecked {
+  id: string;
+  type: string;
+  checkbox: boolean;
 }
 
 export interface Unit {
@@ -98,6 +71,12 @@ export interface Annotations {
   underline: boolean;
   code: boolean;
   color: string;
+}
+
+export interface Price {
+  id: string;
+  type: string;
+  number: number;
 }
 
 export interface Category {
@@ -144,11 +123,3 @@ export interface Annotations2 {
   code: boolean;
   color: string;
 }
-
-export interface Price {
-  id: string;
-  type: string;
-  number: number | null;
-}
-
-export interface PageOrDatabase {}

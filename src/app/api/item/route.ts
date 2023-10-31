@@ -1,6 +1,7 @@
 import { Client } from '@notionhq/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { IGetItemResponse } from '../../../common/types/item';
+import { IItem } from '../../../common/types/update-item';
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN
@@ -41,6 +42,10 @@ export async function POST(req: NextRequest) {
         },
         category: {
           relation: [{ id: body.category.id }]
+        },
+        price: {
+          type: 'number',
+          number: 0.0
         }
       }
     });
@@ -59,7 +64,9 @@ export async function PUT(req: NextRequest) {
       page_id: id,
       properties: data
     });
-    return NextResponse.json(response);
+    const result = response as unknown as IItem;
+
+    return NextResponse.json(result);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: error, success: false });
