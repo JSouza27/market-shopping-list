@@ -13,7 +13,7 @@ export default function Group({ checked, children }: GroupType) {
 
   return (
     <div
-      className={`border border-black/20 rounded-lg flex p-4 items-center justify-between shrink basis-[39rem] cursor-pointer z-30 ${
+      className={`border border-black/20 rounded-lg flex p-4 items-center justify-between shrink basis-[39rem] gap-8 cursor-pointer z-30 flex-wrap ${
         checked ? containerModiffiers.checked : containerModiffiers.unchecked
       }`}
     >

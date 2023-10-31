@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { registerSchema } from '../../validations/register';
@@ -18,6 +18,10 @@ import Button from '../../components/Button';
 import { Plus, Trash2 } from 'lucide-react';
 import handleUnit from '../../utils/handleUnit';
 import Tag from '../../components/Tag';
+import {
+  convertCurrencyToString,
+  convertNumberToString
+} from '../../utils/convertCurrency';
 
 export type FormValuesType = z.infer<typeof registerSchema>;
 export type HomeProps = {
@@ -32,6 +36,7 @@ export default function Home({ units, categories, listItens }: HomeProps) {
     CategoryType | undefined
   >(categories.find((category) => category.label === 'selecione'));
   const [itens, setItens] = useState<ItemChecklistType[]>(listItens);
+  const [total, setTotal] = useState<string>('R$ 0,00');
 
   const methods = useForm<FormValuesType>({
     resolver: zodResolver(registerSchema)
@@ -73,7 +78,8 @@ export default function Home({ units, categories, listItens }: HomeProps) {
           const newItem = {
             ...obj,
             id: respConverted.id,
-            quantity: Number(obj.quantity)
+            quantity: Number(obj.quantity),
+            price: 0
           };
           setItens((prev) => [...prev, newItem]);
           reset({ name: '', quantity: '' });
@@ -143,7 +149,52 @@ export default function Home({ units, categories, listItens }: HomeProps) {
     }
   };
 
+  const handleSumTotalItam = (itens: ItemChecklistType[]) => {
+    const sum = itens.reduce((value, item) => {
+      if (!item.price) return value;
+
+      return value + item.price;
+    }, 0);
+    setTotal(convertCurrencyToString(sum));
+  };
+
+  const handleTotal = async (value: number, id: string) => {
+    try {
+      const item = itens.find((item) => item.id === id);
+
+      if (!item) return;
+
+      await fetch('/api/item', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id, data: { price: value } })
+      }).then(async (resp) => {
+        const respConverted = await resp.json();
+
+        if (respConverted.success === false) {
+          handleException('Ocorreu um erro ao atualizar o item!');
+          return;
+        }
+
+        item.price = value;
+        const newItens = Object.assign(itens, item);
+
+        handleSumTotalItam(newItens);
+        setItens(newItens);
+      });
+    } catch (error: any) {
+      console.error(error);
+      handleException(error.message);
+    }
+  };
+
   const onSubmit = handleSubmit(addItem);
+
+  useEffect(() => {
+    handleSumTotalItam(listItens);
+  }, []);
 
   return (
     <main className="max-w-2xl w-full flex flex-col gap-10">
@@ -197,11 +248,18 @@ export default function Home({ units, categories, listItens }: HomeProps) {
         </section>
       </FormProvider>
 
+      <section>
+        <span className="text-base leading-3 tracking-wide text-dark">
+          Preço Total:
+        </span>
+        <span className="ml-2 text-2xl font-semibold text-cyan">{total}</span>
+      </section>
+
       <section className="flex flex-col gap-3 overflow-y-auto max-h-[32.5rem] pr-3 pb-4">
         {itens.map((item) => (
           <div key={`item-${item.id}`}>
             <Item.Group checked={item.isChecked}>
-              <div className="flex gap-4 items-center">
+              <div className="flex gap-4 items-center grow">
                 <Checkbox
                   checked={item.isChecked}
                   onChange={() => handleIsChecked(item)}
@@ -212,6 +270,17 @@ export default function Home({ units, categories, listItens }: HomeProps) {
                     {handleUnit(item.unit, item.quantity)}
                   </Item.Description>
                 </div>
+              </div>
+
+              <div className="flex gap-4 items-center">
+                <Item.Label>Preço</Item.Label>
+                <Item.Description>
+                  <Input
+                    variant="money"
+                    defaultValue={convertNumberToString(item.price)}
+                    handleTotal={(value) => handleTotal(value, item.id)}
+                  />
+                </Item.Description>
               </div>
 
               <div className="flex items-center justify-center gap-3">

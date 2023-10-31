@@ -1,9 +1,9 @@
 type LabelType = {
   children: string | React.ReactNode;
-  checked: boolean;
+  checked?: boolean;
 };
 
-export default function Label({ checked, children }: LabelType) {
+export default function Label({ checked = false, children }: LabelType) {
   const spanModiffiers = {
     checked: 'line-through'
   };

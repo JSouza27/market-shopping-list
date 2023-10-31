@@ -1,17 +1,21 @@
 import { InputHTMLAttributes } from 'react';
-import { useFormContext } from 'react-hook-form';
 
-export type InputProps = InputHTMLAttributes<HTMLInputElement>;
+import InputMoney from './InputMoney';
+import InputText from './InputText';
 
-export default function Input({ id, ...props }: InputProps) {
-  const { register } = useFormContext();
+export type InputProps = {
+  variant?: 'text' | 'money';
+  handleTotal?: (value: number) => Promise<void>;
+} & InputHTMLAttributes<HTMLInputElement>;
 
-  return (
-    <input
-      id={id}
-      className="border w-full border-black/20 rounded-md p-3 text-sm text-dark focus:border-purple_light focus:outline-purple_light"
-      {...register(props.name!)}
-      {...props}
-    />
+export default function Input({
+  variant = 'text',
+  handleTotal,
+  ...props
+}: InputProps) {
+  return variant === 'text' ? (
+    <InputText {...props} />
+  ) : (
+    <InputMoney handleTotal={handleTotal!} {...props} />
   );
 }
