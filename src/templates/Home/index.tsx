@@ -163,13 +163,14 @@ export default function Home({ units, categories, listItens }: HomeProps) {
       const item = itens.find((item) => item.id === id);
 
       if (!item) return;
-
+      const priceTotal = value * item.quantity;
+      console.log(priceTotal);
       await fetch('/api/item', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id, data: { price: value } })
+        body: JSON.stringify({ id, data: { price: priceTotal } })
       }).then(async (resp) => {
         const respConverted = await resp.json();
 
@@ -178,7 +179,7 @@ export default function Home({ units, categories, listItens }: HomeProps) {
           return;
         }
 
-        item.price = value;
+        item.price = priceTotal;
         const newItens = Object.assign(itens, item);
 
         handleSumTotalItam(newItens);
